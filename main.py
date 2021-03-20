@@ -45,7 +45,7 @@ def streamsb(slug):
 app = FastAPI()
 @app.get('/')
 def root(request: Request):
-    return {"root": request.client.host}
+    return {"root": request.url.hostname}
 
 @app.get('/search')
 async def search(name: str):
@@ -79,7 +79,7 @@ def anime_details(slug:str , request: Request):
         "status":status,
         "other_name":other_name,
         "episodes":[{
-            f'{x}': f"{request.client.host}/episode?slug={slug}&ep={x+1}"
+            f'{x}': f"{request.url.hostname}/episode?slug={slug}&ep={x+1}"
         } for x in range(0,int(ep_end)+1)]
     }
     return {'response':data}
