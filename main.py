@@ -3,7 +3,6 @@ from fastapi import FastAPI, Request
 from bs4 import BeautifulSoup
 import lxml
 import requests
-import concurrent.futures
 import json
 
 from requests.api import request
