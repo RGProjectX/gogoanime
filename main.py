@@ -91,18 +91,12 @@ def episode_link(slug,ep):
     html = requests.get(episode_url)
     soup = bsoup(html.text)
     links_div = soup.find('div',attrs={"class":"anime_muti_link"}).find_all('a')
-    links = [x['data-video'] for x in links_div]
-    server = [x.text.replace('\n','').replace('Choose this server','') for  x in links_div]
-    stream_links= []
-    stream_links.append(gogo_play(links[0]))
-    stream_links.append(gogo_play(links[1]))
-    stream_links.append(streamsb(links[2].split('-')[-1]))
     data = {
         "stream_links":[
             {
-            "link": i,
-            "server":o.title()
-            } for i,o in zip(stream_links,server)
+            "link": gogo_play(links_div[0]['data-video']),
+            "server":"GGA"
+            }
         ]
     }
     return {'response':data}
