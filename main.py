@@ -62,12 +62,12 @@ def anime_details(slug:str , request: Request):
     thumbnail = soup.find('div',attrs={"class":"anime_info_body_bg"}).img.get('src')
     ep_end = soup.find('ul',attrs={"id":"episode_page"}).find('li').a.get("ep_end")
     desc_info =soup.find('div',attrs={"class":"anime_info_body_bg"}).find_all('p',attrs={"class":"type"})
-    type = desc_info[0].text.replace('\n','').strip()
-    desc = desc_info[1].text.replace('\n','').strip()
-    genre = desc_info[2].text.replace('\n','').strip()
-    released = desc_info[3].text.replace('\n','').strip()
-    status = desc_info[4].text.replace('\n','').strip()
-    other_name = desc_info[5].text.replace('\n','').strip()
+    type = desc_info[0].text.replace('\n','').strip().replace('Type: ','')
+    desc = desc_info[1].text.replace('\n','').strip().replace('Plot Summary: ','')
+    genre = desc_info[2].text.replace('\n','').strip().replace('Genre: ','')
+    released = desc_info[3].text.replace('\n','').strip().replace('Released: ','')
+    status = desc_info[4].text.replace('\n','').strip().replace('Status: ','')
+    other_name = desc_info[5].text.replace('\n','').strip().replace('Other name: ','')
 
     data = {
         "title":title,
@@ -79,8 +79,8 @@ def anime_details(slug:str , request: Request):
         "status":status,
         "other_name":other_name,
         "episodes":[{
-            f'{x}': f"{request.url.hostname}/episode?slug={slug}&ep={x+1}"
-        } for x in range(0,int(ep_end)+1)]
+            f'{x}': f"{request.url.hostname}/episode?slug={slug}&ep={x}"
+        } for x in range(1,int(ep_end))]
     }
     return {'response':data}
 
